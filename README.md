@@ -20,4 +20,8 @@ Upcoming features:
 - Auto-saving
 - Deleting files
 - Exporting files
-
+- Dark theme
+- Contextual editor (Ace?)
+- MD help links
+- Popout file list
+- Maybe other extension support?
