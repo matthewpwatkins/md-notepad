@@ -16,6 +16,9 @@ MD Notepad is a lightweight markdown notepad that runs in your browser. Data is 
 
 Upcoming features:
 
+- Logo
+- Icons
+- New domain name
 - Better file name handling
 - Auto-saving
 - Deleting files
