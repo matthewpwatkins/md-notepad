@@ -21,8 +21,8 @@
                     {{ file.name }}
                 </a>
             </div>
-            <div id="editor" class="col border-left border-right p-3 bg-dark text-white">
-                <textarea v-model="activeFile.content" placeholder="Enter some _markdown_."></textarea>
+            <div id="editor" class="col border-left border-right p-0">
+                <textarea class="bg-dark text-white p-3 w-100 border-0 full-height" v-model="activeFile.content" placeholder="Enter some _markdown_."></textarea>
             </div>
             <div id="preview" class="col p-3 text-white" v-html="activeFilePreview"></div>
         </div>

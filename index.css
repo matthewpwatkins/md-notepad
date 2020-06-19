@@ -35,6 +35,6 @@ a {
     font-size: x-large;
 }
 
-#editor:focus {
+#editor textarea:focus {
     outline: 0;
 }
