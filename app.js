@@ -18,6 +18,7 @@ const app = new Vue({
     },
     mounted() {
         this.initialize();
+        this.listenForKeyboardShortcuts();
         this.mounted = true;
     },
     methods: {
@@ -30,6 +31,15 @@ const app = new Vue({
             }
             this.files = files;
             this.activeFile = { index: 0, content: '' };
+        },
+        listenForKeyboardShortcuts() {
+            this.keyListener = function(e) {
+                if (e.key === "s" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    this.saveActiveFile();
+                }
+            };
+            document.addEventListener('keydown', this.keyListener.bind(this));
         },
         openFile(fileIndex) {
             const file = this.files[fileIndex];
@@ -49,6 +59,12 @@ const app = new Vue({
             localStorage.setItem(FILE_PREFIX + fileName, this.activeFile.content);
             file.name = fileName;
             file.dirty = false;
+        },
+        removeKeyboardShortcuts() {
+            document.removeEventListener('keydown', this.keyListener);
+        },
+        beforeDestroy() {
+            this.removeKeyboardShortcuts();
         }
     }
 });
