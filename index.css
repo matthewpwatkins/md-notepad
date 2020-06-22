@@ -22,7 +22,7 @@ a {
 }
 
 #main-body {
-    padding-top: 42px;
+    padding-top: 56px;
     max-width: 100%;
 }
 
@@ -37,4 +37,8 @@ a {
 
 #editor textarea:focus {
     outline: 0;
+}
+
+.bg-black {
+    background-color: black;
 }
