@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./fork.css" />
     <title>MD Notepad</title>
 </head>
 
@@ -13,7 +14,10 @@
     <main id="app" role="main" class="container-fluid full-height p-0">
         <div id="title-bar" class="bg-dark text-white w-100 p-2">
             <span class="font-weight-bold text-uppercase">MD Notepad</span>
-            <button class="btn btn-sm btn-primary float-right" v-on:click="saveActiveFile">Save</button>
+            <span class="float-right">
+                <a class="btn btn-sm btn-primary" href="https://github.com/watkinsmatthewp/md-notepad"><i class="fab fa-github fa-lg mr-1"></i> Fork</a>
+                <button class="btn btn-sm btn-primary" v-on:click="saveActiveFile"><i class="fas fa-save fa-lg mr-1"></i> Save</button>
+            </span>
         </div>
         <div v-if="mounted" id="main-body" class="row full-height">
             <div id="file-list" class="col-4 col-md-3 col-lg-2 list-group list-group-flush pr-0 rounded-0">
