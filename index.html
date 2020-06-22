@@ -17,12 +17,15 @@
             <div class="float-right">
                 <a class="btn btn-sm btn-primary" href="./index-dark.html"><i class="far fa-moon fa-lg mr-1"></i> Dark mode</a>
                 <a class="btn btn-sm btn-primary" href="https://github.com/watkinsmatthewp/md-notepad"><i class="fab fa-github fa-lg mr-1"></i> Fork</a>
-                <button class="btn btn-sm btn-primary" v-on:click="saveActiveFile"><i class="fas fa-save fa-lg mr-1"></i> Save</button>
+                <button class="btn btn-sm btn-primary" v-on:click="saveActiveFile">
+                    <i v-if="saveInProgress" class="spinner-border spinner-border-sm mr-1"></i>
+                    <i v-else class="fas fa-save fa-lg mr-1"></i> Save
+                </button>
             </div>
         </div>
         <div v-if="mounted" id="main-body" class="row full-height">
             <div id="file-list" class="col-4 col-md-3 col-lg-2 list-group list-group-flush pr-0 rounded-0">
-                <a v-for="(file, fileIndex) in files" v-on:click="openFile(fileIndex)" class="list-group-item list-group-item-action" v-bind:class="{ active: file.active, 'font-italic': file.dirty }">
+                <a v-for="(file, fileIndex) in files" v-on:click="openFile(fileIndex)" class="list-group-item list-group-item-action" v-bind:class="{ active: file.active, 'font-italic': dirty && file.active }">
                     {{ file.name }}
                 </a>
             </div>
