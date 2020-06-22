@@ -9,6 +9,7 @@ const MD = new window.remarkable.Remarkable("full");
 const app = new Vue({
     el: '#app',
     data: {
+        darkMode: false,
         mounted: false,
         files: [],
         activeFile: {},
@@ -65,6 +66,9 @@ const app = new Vue({
                     }, 750);
                 }
             }, AUTO_SAVE_INTERVAL);
+        },
+        toggleTheme() {
+            this.darkMode = !this.darkMode;
         },
         openFile(fileIndex) {
             const file = this.files[fileIndex];
