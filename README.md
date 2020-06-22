@@ -1,5 +1,7 @@
 # MD Notepad
 
+![](icon.png)
+
 MD Notepad is a lightweight markdown notepad that runs in your browser. Data is stored in browser storage and is never sent to a server. Visit us at:
 
 [md-notepad.netlify.app](https://md-notepad.netlify.app/)
