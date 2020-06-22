@@ -1,5 +1,6 @@
 'use strict';
 
+const DARK_MODE_COOKIE_NAME = 'DARK_MODE';
 const AUTO_SAVE_INTERVAL = 5000;
 const NEW_FILE_NAME = 'Untitled';
 const TEMP_FILE_PATH = 'temp';
@@ -23,12 +24,16 @@ const app = new Vue({
         }
     },
     mounted() {
+        this.setTheme();
         this.initialize();
         this.listenForKeyboardShortcuts();
         this.startAutoSaveTimer();
         this.mounted = true;
     },
     methods: {
+        setTheme() {
+            this.darkMode = Cookies.get(DARK_MODE_COOKIE_NAME) === true.toString();
+        },
         initialize() {
             const files = [{ name: NEW_FILE_NAME, active: true }];
             for (const key in localStorage) {
@@ -69,6 +74,9 @@ const app = new Vue({
         },
         toggleTheme() {
             this.darkMode = !this.darkMode;
+            console.log(Cookies);
+            Cookies.set(DARK_MODE_COOKIE_NAME, this.darkMode.toString());
+            console.log(Cookies.get(DARK_MODE_COOKIE_NAME));
         },
         openFile(fileIndex) {
             const file = this.files[fileIndex];
