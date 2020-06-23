@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <main id="app" role="main" class="container-fluid full-height p-0" v-bind:class="{ 'bg-dark': darkMode }">
+    <main id="app" v-if="mounted" role="main" class="container-fluid full-height" v-bind:class="{ 'bg-dark': darkMode }">
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top" v-bind:class="{ 'bg-black': darkMode, 'bg-dark': !darkMode }">
             <a class="navbar-brand text-uppercase" href="#">
                 <img class="d-inline-block align-top mr-1" src="./icon.png" width="30" height="30" loading="lazy"/> MD Notepad
@@ -52,9 +52,9 @@
             </div>
         </nav>
 
-        <div v-if="mounted" id="main-body" class="full-height">
+        <div id="main-body" class="full-height">
             <div class="row full-height">
-                <div class="col-4 col-md-3 col-lg-2 pr-0 rounded-0">
+                <div class="col-4 col-md-3 col-lg-2 rounded-0 p-0">
                     <div class="bg-secondary text-white">
                         <ul class="list-group list-group-horizontal">
                             <li class="list-group-item bg-transparent text-white p-2 border-0">
