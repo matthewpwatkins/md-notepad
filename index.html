@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <main id="app" v-if="mounted" role="main" class="container-fluid full-height" v-bind:class="{ 'bg-dark': darkMode }">
+    <main id="app" v-if="mounted" role="main" class="container-fluid h-100" v-bind:class="{ 'bg-dark': darkMode }">
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top" v-bind:class="{ 'bg-black': darkMode, 'bg-dark': !darkMode }">
             <a class="navbar-brand text-uppercase" href="#">
                 <img class="d-inline-block align-top mr-1" src="./icon.png" width="30" height="30" loading="lazy"/> MD Notepad
@@ -52,8 +52,8 @@
             </div>
         </nav>
 
-        <div id="main-body" class="full-height">
-            <div class="row full-height">
+        <div id="main-body" class="h-100">
+            <div class="row h-100">
                 <div class="col-4 col-md-3 col-lg-2 rounded-0 p-0">
                     <div class="bg-secondary text-white">
                         <ul class="list-group list-group-horizontal">
@@ -80,7 +80,7 @@
                             </li>
                         </ul>
                     </div>
-                    <textarea id="editor" class="p-3 w-100 border-0 full-height" v-model="activeFile.content" placeholder="Enter some _markdown_." v-bind:class="{ 'bg-dark': darkMode, 'text-white': darkMode }"></textarea>
+                    <textarea id="editor" class="p-3 w-100 border-0 h-100" v-model="activeFile.content" placeholder="Enter some _markdown_." v-bind:class="{ 'bg-dark': darkMode, 'text-white': darkMode }"></textarea>
                 </div>
                 <div class="col p-0">
                     <div class="bg-secondary text-white">
