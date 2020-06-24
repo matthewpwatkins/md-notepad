@@ -68,19 +68,19 @@
                         </a>
                     </div>
                 </div>
-                <div class="col border-left border-right p-0">
+                <div class="col border-left border-right p-0 last-item-h-100">
                     <div class="bg-secondary text-white">
-                        <a class="p-2 mr-1 float-right" v-on:click="saveActiveFile">
-                            <i v-if="saveInProgress" class="spinner-border spinner-border-sm"></i>
-                            <i v-else class="fas fa-save"></i>
-                        </a>
+                        <span class="p-2 mr-1 float-right">
+                            <span v-if="saveInProgress" class="mr-1 font-italic">Saving...</span>
+                            <a v-on:click="saveActiveFile"><i class="fas fa-lg fa-save"></i></a>
+                        </span>
                         <ul class="list-group list-group-horizontal">
                             <li class="list-group-item bg-transparent text-white p-2 border-0">
                                 <span>{{ files[activeFile.index].name }}.md</span>
                             </li>
                         </ul>
                     </div>
-                    <textarea id="editor" class="p-3 w-100 border-0 h-100" v-model="activeFile.content" placeholder="Enter some _markdown_." v-bind:class="{ 'bg-dark': darkMode, 'text-white': darkMode }"></textarea>
+                    <textarea id="editor" class="p-3 w-100 border-0" v-model="activeFile.content" placeholder="Enter some _markdown_." v-bind:class="{ 'bg-dark': darkMode, 'text-white': darkMode }"></textarea>
                 </div>
                 <div class="col p-0">
                     <div class="bg-secondary text-white">
@@ -101,6 +101,8 @@
     <script src="https://kit.fontawesome.com/71d0e575d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <script src="./app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 
 </html>
