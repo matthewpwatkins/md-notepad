@@ -66,9 +66,10 @@
                         <a class="list-group-item list-group-item-action" v-bind:class="{ 'list-group-item-dark': darkMode }" v-on:click="createNewFile">
                             <i class="fas fa-plus-square mr-1"></i> Create a new file
                         </a>
-                        <a v-for="(file, fileIndex) in files" v-on:click="openFile(fileIndex)" class="list-group-item list-group-item-action" v-bind:class="{ active: fileIndex === activeFile.index, 'font-italic': dirty && fileIndex === activeFile.index, 'list-group-item-dark': darkMode && fileIndex !== activeFile.index }">
-                            <i class="far fa-file-alt mr-1"></i> {{ file.name }}
-                        </a>
+                        <div v-for="(file, fileIndex) in files" class="list-group-item list-group-item-action" v-bind:class="{ active: fileIndex === activeFile.index, 'font-italic': dirty && fileIndex === activeFile.index, 'list-group-item-dark': darkMode && fileIndex !== activeFile.index }">
+                            <a v-on:click="deleteFile(fileIndex)" class="float-right"><i class="far fa-trash-alt"></i></a>
+                            <a v-on:click="openFile(fileIndex)"><i class="far fa-file-alt mr-1"></i> {{ file.name }}</a>
+                        </div>
                     </div>
                 </div>
                 <template v-if="activeFile">

@@ -8,7 +8,7 @@ export class LocalStorageFileManager {
     listFiles() {
         const files = [];
         for (const recordKey in localStorage) {
-            if (recordKey.startsWith('files/') && recordKey.endsWith('/metadata.json')) {
+            if (recordKey.startsWith('files/') && recordKey.endsWith('/metadata')) {
                 files.push(this.readMetadata(recordKey));
             }
         }
@@ -16,7 +16,7 @@ export class LocalStorageFileManager {
     }
 
     lookupFile(fileName) {
-        return this.readMetadata(`files/${fileName}/metadata.json`);
+        return this.readMetadata(`files/${fileName}/metadata`);
     }
 
     readMetadata(metadataRecordName) {
@@ -31,13 +31,18 @@ export class LocalStorageFileManager {
     }
 
     readFile(fileName) {
-        const fileContentRecordName = `files/${fileName}/content.txt`;
+        const fileContentRecordName = `files/${fileName}/content`;
         return localStorage.getItem(fileContentRecordName);
     }
 
     saveFile(fileMetadata, fileContent) {
         fileMetadata.lastEdit.dateTime = Date.now();
-        localStorage.setItem(`files/${fileMetadata.name}/metadata.json`, JSON.stringify(fileMetadata));
-        localStorage.setItem(`files/${fileMetadata.name}/content.txt`, fileContent);
+        localStorage.setItem(`files/${fileMetadata.name}/metadata`, JSON.stringify(fileMetadata));
+        localStorage.setItem(`files/${fileMetadata.name}/content`, fileContent);
+    }
+
+    deleteFile(fileName) {
+        localStorage.removeItem(`files/${fileName}/metadata`)
+        localStorage.removeItem(`files/${fileName}/content`)
     }
 }

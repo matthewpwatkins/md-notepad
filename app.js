@@ -37,7 +37,7 @@ const app = new Vue({
         initialize() {
             this.files = FILE_MANAGER.listFiles();
             if (this.files.length) {
-                const mostRecentFileIndex = 0;
+                let mostRecentFileIndex = 0;
                 for (let i = 1; i < this.files.length; i++) {
                     if (this.files[i].lastEdit.dateTime > this.files[mostRecentFileIndex].lastEdit.dateTime) {
                         mostRecentFileIndex = i;
@@ -75,11 +75,20 @@ const app = new Vue({
             }
         },
         openFile(fileIndex) {
+            if (this.activeFile && this.activeFile.index !== fileIndex) {
+                this.saveActiveFile();
+            }
             const file = this.files[fileIndex];
             this.activeFile = {
                 index: fileIndex,
                 content: FILE_MANAGER.readFile(file.name)
             };
+        },
+        deleteFile(fileIndex) {
+            FILE_MANAGER.deleteFile(this.files[fileIndex].name);
+            if (this.activeFile && this.activeFile.index === fileIndex) {
+                this.initialize();
+            }
         },
         startAutoSaveTimer() {
             this.autoSaveTimer = setInterval(() => {
