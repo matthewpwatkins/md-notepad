@@ -38,7 +38,7 @@ const app = new Vue({
             this.files = FILE_MANAGER.listFiles();
             if (this.files.length) {
                 const mostRecentFileIndex = 0;
-                for (const i = 1; i < this.files.length; i++) {
+                for (let i = 1; i < this.files.length; i++) {
                     if (this.files[i].lastEdit.dateTime > this.files[mostRecentFileIndex].lastEdit.dateTime) {
                         mostRecentFileIndex = i;
                     }
@@ -101,9 +101,7 @@ const app = new Vue({
         },
         toggleTheme() {
             this.darkMode = !this.darkMode;
-            console.log(Cookies);
             Cookies.set(DARK_MODE_COOKIE_NAME, this.darkMode.toString());
-            console.log(Cookies.get(DARK_MODE_COOKIE_NAME));
         },
         saveActiveFile() {
             const file = this.files[this.activeFile.index];
