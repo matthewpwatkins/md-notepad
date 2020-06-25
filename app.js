@@ -84,7 +84,7 @@ const app = new Vue({
             const filePath = file.name === NEW_FILE_NAME ? TEMP_FILE_PATH : `${FILE_PREFIX}${file.name}`;
             this.activeFile = {
                 index: fileIndex,
-                content: localStorage.getItem(filePath)
+                content: localStorage.getItem(filePath) || ''
             }
             file.active = true;
         },
