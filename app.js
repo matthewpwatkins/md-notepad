@@ -1,11 +1,11 @@
 'use strict';
 
+import { LocalStorageFileManager } from './local-storage-file-manager.js';
+
 const DARK_MODE_COOKIE_NAME = 'DARK_MODE';
 const AUTO_SAVE_INTERVAL = 5000;
-const NEW_FILE_NAME = 'Untitled';
-const TEMP_FILE_PATH = 'temp';
-const FILE_PREFIX = 'file/';
 const MD = new window.remarkable.Remarkable("full");
+const FILE_MANAGER = new LocalStorageFileManager();
 
 const app = new Vue({
     el: '#app',
@@ -13,7 +13,7 @@ const app = new Vue({
         darkMode: false,
         mounted: false,
         files: [],
-        activeFile: {},
+        activeFile: null,
         dirty: false,
         lastSave: 0,
         saveInProgress: false
@@ -35,15 +35,19 @@ const app = new Vue({
             this.darkMode = Cookies.get(DARK_MODE_COOKIE_NAME) === true.toString();
         },
         initialize() {
-            const files = [{ name: NEW_FILE_NAME, active: true }];
-            for (const key in localStorage) {
-                if (key.startsWith(FILE_PREFIX)) {
-                    files.push({ name: key.substring(FILE_PREFIX.length) });
+            this.files = FILE_MANAGER.listFiles();
+            if (this.files.length) {
+                const mostRecentFileIndex = 0;
+                for (const i = 1; i < this.files.length; i++) {
+                    if (this.files[i].lastEdit.dateTime > this.files[mostRecentFileIndex].lastEdit.dateTime) {
+                        mostRecentFileIndex = i;
+                    }
                 }
+                this.activeFile = {
+                    index: mostRecentFileIndex,
+                    content: FILE_MANAGER.readFile(this.files[mostRecentFileIndex].name)
+                };
             }
-            this.files = files;
-            this.activeFile = { index: 0, content: '' };
-            this.openFile(0);
         },
         listenForKeyboardShortcuts() {
             this.keyListener = function(e) {
@@ -56,19 +60,42 @@ const app = new Vue({
             };
             document.addEventListener('keydown', this.keyListener.bind(this));
         },
+        createNewFile() {
+            let fileName = prompt('File name? Make it awesome :)');
+            fileName = fileName ? fileName.trim() : fileName;
+            // TODO: Validate file name is valid and does not already exist
+            if (fileName && fileName.length) {
+                const fileMetadata = { name: fileName, lastEdit: { dateTime: 0 } };
+                FILE_MANAGER.saveFile(fileMetadata, '');
+                this.files.push(fileMetadata);
+                this.activeFile = {
+                    index: this.files.length - 1,
+                    content: ''
+                };
+            }
+        },
+        openFile(fileIndex) {
+            const file = this.files[fileIndex];
+            this.activeFile = {
+                index: fileIndex,
+                content: FILE_MANAGER.readFile(file.name)
+            };
+        },
         startAutoSaveTimer() {
             this.autoSaveTimer = setInterval(() => {
-                const now = new Date().getTime();
-                const file = this.files[this.activeFile.index];
-                if (this.dirty && !this.saveInProgress && now > this.lastSave + AUTO_SAVE_INTERVAL - 1000) {
-                    this.saveInProgress = true;
-                    const savedAt = new Date().getTime();
-                    this.saveActiveFile();
-                    setTimeout(() => {
-                        this.dirty = false;
-                        this.lastSave = savedAt;
-                        this.saveInProgress = false;
-                    }, 750);
+                if (this.activeFile) {
+                    const now = new Date().getTime();
+                    const file = this.files[this.activeFile.index];
+                    if (this.dirty && !this.saveInProgress && now > this.lastSave + AUTO_SAVE_INTERVAL - 1000) {
+                        this.saveInProgress = true;
+                        const savedAt = new Date().getTime();
+                        this.saveActiveFile();
+                        setTimeout(() => {
+                            this.dirty = false;
+                            this.lastSave = savedAt;
+                            this.saveInProgress = false;
+                        }, 750);
+                    }
                 }
             }, AUTO_SAVE_INTERVAL);
         },
@@ -78,20 +105,9 @@ const app = new Vue({
             Cookies.set(DARK_MODE_COOKIE_NAME, this.darkMode.toString());
             console.log(Cookies.get(DARK_MODE_COOKIE_NAME));
         },
-        openFile(fileIndex) {
-            const file = this.files[fileIndex];
-            this.files[this.activeFile.index].active = false;
-            const filePath = file.name === NEW_FILE_NAME ? TEMP_FILE_PATH : `${FILE_PREFIX}${file.name}`;
-            this.activeFile = {
-                index: fileIndex,
-                content: localStorage.getItem(filePath) || ''
-            }
-            file.active = true;
-        },
         saveActiveFile() {
             const file = this.files[this.activeFile.index];
-            let filePath = file.name === NEW_FILE_NAME ? TEMP_FILE_PATH : `${FILE_PREFIX}${file.name}`;
-            localStorage.setItem(filePath, this.activeFile.content);
+            FILE_MANAGER.saveFile(file, this.activeFile.content);
         },
         removeKeyboardShortcuts() {
             document.removeEventListener('keydown', this.keyListener);
