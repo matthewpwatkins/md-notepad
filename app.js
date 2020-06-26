@@ -4,7 +4,25 @@ import { LocalStorageFileManager } from './local-storage-file-manager.js';
 
 const DARK_MODE_COOKIE_NAME = 'DARK_MODE';
 const AUTO_SAVE_INTERVAL = 5000;
-const MD = new window.remarkable.Remarkable("full");
+
+const MD = new window.remarkable.Remarkable("full", {
+  html: true,
+  xhtmlOut: true,
+  typographer: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (err) {}
+    }
+
+    try {
+      return hljs.highlightAuto(str).value;
+    } catch (err) {}
+
+    return ""; // use external default escaping
+  },
+});
 const FILE_MANAGER = new LocalStorageFileManager();
 
 const app = new Vue({
@@ -20,7 +38,7 @@ const app = new Vue({
     },
     computed: {
         activeFilePreview: function() {
-            return (this.activeFile && this.activeFile.content) ? MD.render(this.activeFile.content) : null;
+            return (this.activeFile && this.activeFile.content) ? this.mdRender(this.activeFile.content) : null;
         }
     },
     mounted() {
@@ -33,9 +51,12 @@ const app = new Vue({
     methods: {
         setTheme() {
             this.darkMode = Cookies.get(DARK_MODE_COOKIE_NAME) === true.toString();
+            this.updateStyleFromTheme();
         },
         initialize() {
+            this.activeFile = null;
             this.files = FILE_MANAGER.listFiles();
+
             if (this.files.length) {
                 let mostRecentFileIndex = 0;
                 for (let i = 1; i < this.files.length; i++) {
@@ -67,11 +88,7 @@ const app = new Vue({
             if (fileName && fileName.length) {
                 const fileMetadata = { name: fileName, lastEdit: { dateTime: 0 } };
                 FILE_MANAGER.saveFile(fileMetadata, '');
-                this.files.push(fileMetadata);
-                this.activeFile = {
-                    index: this.files.length - 1,
-                    content: ''
-                };
+                this.initialize();
             }
         },
         openFile(fileIndex) {
@@ -84,11 +101,13 @@ const app = new Vue({
                 content: FILE_MANAGER.readFile(file.name)
             };
         },
+        mdRender(inputText) {
+            return MD.render(inputText);
+        },
         deleteFile(fileIndex) {
             FILE_MANAGER.deleteFile(this.files[fileIndex].name);
-            if (this.activeFile && this.activeFile.index === fileIndex) {
-                this.initialize();
-            }
+            this.files.splice(fileIndex, 1);
+            this.initialize();
         },
         startAutoSaveTimer() {
             this.autoSaveTimer = setInterval(() => {
@@ -111,6 +130,11 @@ const app = new Vue({
         toggleTheme() {
             this.darkMode = !this.darkMode;
             Cookies.set(DARK_MODE_COOKIE_NAME, this.darkMode.toString());
+            this.updateStyleFromTheme();
+        },
+        updateStyleFromTheme() {
+            const stylesheetURL = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/styles/vs${this.darkMode ? '2015' : ''}.min.css`;
+            document.getElementById('highlight-theme').setAttribute('href', stylesheetURL);
         },
         saveActiveFile() {
             const file = this.files[this.activeFile.index];

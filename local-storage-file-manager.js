@@ -6,13 +6,14 @@ export class LocalStorageFileManager {
     }
 
     listFiles() {
-        const files = [];
-        for (const recordKey in localStorage) {
-            if (recordKey.startsWith('files/') && recordKey.endsWith('/metadata')) {
-                files.push(this.readMetadata(recordKey));
+        const metadataKeys = [];
+        for (const key in localStorage) {
+            if (key.startsWith('files/') && key.endsWith('/metadata')) {
+                metadataKeys.push(key);
             }
         }
-        return files;
+        metadataKeys.sort();
+        return metadataKeys.map(metadataKey => this.readMetadata(metadataKey));
     }
 
     lookupFile(fileName) {

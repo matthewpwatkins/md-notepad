@@ -47,3 +47,12 @@ a {
 .last-item-h-100 > :last-child {
     flex-grow: 1;
 }
+
+#preview pre {
+    padding: 1rem 0 1rem 2rem;
+    font-size: medium;
+}
+
+#preview.text-white pre {
+    color: #dcdcdc;
+}
