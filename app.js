@@ -98,7 +98,8 @@ const app = new Vue({
             };
         },
         mdRender(inputText) {
-            return MD.render(inputText);
+            return MD.render(inputText)
+                .replace(/\<table\>/g, '<table class="table table-bordered table-striped">');
         },
         deleteFile(fileIndex) {
             FILE_MANAGER.deleteFile(this.files[fileIndex].name);
