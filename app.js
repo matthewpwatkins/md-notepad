@@ -1,7 +1,3 @@
-'use strict';
-
-import { LocalStorageFileManager } from './local-storage-file-manager.js';
-
 const DARK_MODE_COOKIE_NAME = 'DARK_MODE';
 const AUTO_SAVE_INTERVAL = 5000;
 
