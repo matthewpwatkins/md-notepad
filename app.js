@@ -68,11 +68,10 @@ const app = new Vue({
         },
         listenForKeyboardShortcuts() {
             this.keyListener = function(e) {
+                this.dirty = true;
                 if (e.key === "s" && (e.ctrlKey || e.metaKey)) {
                     e.preventDefault();
                     this.saveActiveFile();
-                } else {
-                    this.dirty = true;
                 }
             };
             document.addEventListener('keydown', this.keyListener.bind(this));
@@ -82,14 +81,15 @@ const app = new Vue({
             fileName = fileName ? fileName.trim() : fileName;
             // TODO: Validate file name is valid and does not already exist
             if (fileName && fileName.length) {
+                this.saveActiveFile(true);
                 const fileMetadata = { name: fileName, lastEdit: { dateTime: 0 } };
                 FILE_MANAGER.saveFile(fileMetadata, '');
                 this.initialize();
             }
         },
         openFile(fileIndex) {
-            if (this.activeFile && this.activeFile.index !== fileIndex) {
-                this.saveActiveFile();
+            if (this.dirty) {
+                this.saveActiveFile(true);
             }
             const file = this.files[fileIndex];
             this.activeFile = {
@@ -108,17 +108,8 @@ const app = new Vue({
         startAutoSaveTimer() {
             this.autoSaveTimer = setInterval(() => {
                 if (this.activeFile) {
-                    const now = new Date().getTime();
-                    const file = this.files[this.activeFile.index];
                     if (this.dirty && !this.saveInProgress && now > this.lastSave + AUTO_SAVE_INTERVAL - 1000) {
-                        this.saveInProgress = true;
-                        const savedAt = new Date().getTime();
                         this.saveActiveFile();
-                        setTimeout(() => {
-                            this.dirty = false;
-                            this.lastSave = savedAt;
-                            this.saveInProgress = false;
-                        }, 750);
                     }
                 }
             }, AUTO_SAVE_INTERVAL);
@@ -132,9 +123,22 @@ const app = new Vue({
             const stylesheetURL = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/styles/vs${this.darkMode ? '2015' : ''}.min.css`;
             document.getElementById('highlight-theme').setAttribute('href', stylesheetURL);
         },
-        saveActiveFile() {
-            const file = this.files[this.activeFile.index];
-            FILE_MANAGER.saveFile(file, this.activeFile.content);
+        saveActiveFile(bypassDisplay) {
+            if (this.activeFile) {
+                this.saveInProgress = true;
+                const file = this.files[this.activeFile.index];
+                const savedAt = Date.now();
+    
+                FILE_MANAGER.saveFile(file, this.activeFile.content);
+    
+                if (!bypassDisplay) {
+                    setTimeout(() => {
+                        this.dirty = false;
+                        this.lastSave = savedAt;
+                        this.saveInProgress = false;
+                    }, 750);
+                }
+            }
         },
         removeKeyboardShortcuts() {
             document.removeEventListener('keydown', this.keyListener);
