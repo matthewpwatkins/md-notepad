@@ -19,6 +19,7 @@ const MD = new window.remarkable.Remarkable("full", {
     return ""; // use external default escaping
   },
 });
+
 const FILE_MANAGER = new LocalStorageFileManager();
 
 const app = new Vue({
@@ -81,6 +82,9 @@ const app = new Vue({
             fileName = fileName ? fileName.trim() : fileName;
             // TODO: Validate file name is valid and does not already exist
             if (fileName && fileName.length) {
+                if (!fileName.endsWith('.md') && !fileName.endsWith('.markdown')) {
+                    fileName = fileName + '.md';
+                }
                 this.saveActiveFile(true);
                 const fileMetadata = { name: fileName, lastEdit: { dateTime: 0 } };
                 FILE_MANAGER.saveFile(fileMetadata, '');
@@ -108,6 +112,7 @@ const app = new Vue({
         },
         startAutoSaveTimer() {
             this.autoSaveTimer = setInterval(() => {
+                const now = Date.now();
                 if (this.activeFile) {
                     if (this.dirty && !this.saveInProgress && now > this.lastSave + AUTO_SAVE_INTERVAL - 1000) {
                         this.saveActiveFile();
@@ -139,6 +144,14 @@ const app = new Vue({
                         this.saveInProgress = false;
                     }, 750);
                 }
+            }
+        },
+        downloadActiveFile() {
+            if (this.activeFile) {
+                this.saveActiveFile();
+                const file = this.files[this.activeFile.index];
+                const blob = new Blob([this.activeFile.content], { type: 'text/plain;charset=utf-8' });
+                saveAs(blob, file.name);
             }
         },
         removeKeyboardShortcuts() {

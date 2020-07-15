@@ -71,7 +71,7 @@
                             <i class="fas fa-plus-square mr-1"></i> Create a new file
                         </a>
                         <div v-for="(file, fileIndex) in files" class="list-group-item list-group-item-action" v-bind:class="{ active: fileIndex === activeFile.index, 'font-italic': dirty && fileIndex === activeFile.index, 'list-group-item-dark': darkMode && fileIndex !== activeFile.index }">
-                            <a v-on:click="deleteFile(fileIndex)" class="float-right"><i class="far fa-trash-alt"></i></a>
+                            <a title="Delete" v-on:click="deleteFile(fileIndex)" class="float-right"><i class="far fa-trash-alt"></i></a>
                             <a v-on:click="openFile(fileIndex)"><i class="far fa-file-alt mr-1"></i> {{ file.name }}</a>
                         </div>
                     </div>
@@ -81,11 +81,12 @@
                         <div class="bg-secondary text-white">
                             <span class="p-2 mr-1 float-right">
                                 <span v-if="saveInProgress" class="mr-1 font-italic">Saving...</span>
-                                <a v-on:click="saveActiveFile"><i class="fas fa-lg fa-save"></i></a>
+                                <a title="Save" v-on:click="saveActiveFile"><i class="fas fa-lg fa-save"></i></a>
+                                <a title="Download" class="ml-1" v-on:click="downloadActiveFile"><i class="fas fa-lg fa-download"></i></a>
                             </span>
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item bg-transparent text-white p-2 border-0">
-                                    <span>{{ files[activeFile.index].name }}.md</span>
+                                    <span>{{ files[activeFile.index].name }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -118,6 +119,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
     <script src="./local-storage-file-manager.js"></script>
     <script src="./app.js"></script>
 </body>
