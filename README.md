@@ -2,7 +2,7 @@
 
 ![](icon.png)
 
-MD Notepad is a lightweight markdown notepad that runs in your browser. Data is stored in browser storage and is never sent to a server. Visit us at:
+MD Notepad is a lightweight markdown notepad that runs in your browser. Data is stored in browser storage and is never sent to a server. Try it out at:
 
 [mdnotepad.com](https://www.mdnotepad.com/)
 
@@ -17,3 +17,10 @@ MD Notepad is a lightweight markdown notepad that runs in your browser. Data is 
 - Multiple file support
 - Dark theme
 - Auto-save as you type
+- Export to disk
+
+## Running offline
+
+1. Clone the repo
+1. Open index.html in your browser
+1. There is no step 3.
