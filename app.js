@@ -72,7 +72,7 @@ const app = new Vue({
                 this.dirty = true;
                 if (e.key === "s" && (e.ctrlKey || e.metaKey)) {
                     e.preventDefault();
-                    this.saveActiveFile();
+                    this.saveActiveFile(true);
                 }
             };
             document.addEventListener('keydown', this.keyListener.bind(this));
@@ -85,7 +85,7 @@ const app = new Vue({
                 if (!fileName.endsWith('.md') && !fileName.endsWith('.markdown')) {
                     fileName = fileName + '.md';
                 }
-                this.saveActiveFile(true);
+                this.saveActiveFile(false);
                 const fileMetadata = { name: fileName, lastEdit: { dateTime: 0 } };
                 FILE_MANAGER.saveFile(fileMetadata, '');
                 this.initialize();
@@ -93,7 +93,7 @@ const app = new Vue({
         },
         openFile(fileIndex) {
             if (this.dirty) {
-                this.saveActiveFile(true);
+                this.saveActiveFile(false);
             }
             const file = this.files[fileIndex];
             this.activeFile = {
@@ -115,7 +115,7 @@ const app = new Vue({
                 const now = Date.now();
                 if (this.activeFile) {
                     if (this.dirty && !this.saveInProgress && now > this.lastSave + AUTO_SAVE_INTERVAL - 1000) {
-                        this.saveActiveFile();
+                        this.saveActiveFile(true);
                     }
                 }
             }, AUTO_SAVE_INTERVAL);
@@ -129,18 +129,21 @@ const app = new Vue({
             const stylesheetURL = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.0/styles/vs${this.darkMode ? '2015' : ''}.min.css`;
             document.getElementById('highlight-theme').setAttribute('href', stylesheetURL);
         },
-        saveActiveFile(bypassDisplay) {
+        saveActiveFile(showIndicator) {
             if (this.activeFile) {
-                this.saveInProgress = true;
+                if (this.showIndicator) {
+                    this.saveInProgress = true;
+                }
+                
                 const file = this.files[this.activeFile.index];
                 const savedAt = Date.now();
     
                 FILE_MANAGER.saveFile(file, this.activeFile.content);
+                this.dirty = false;
+                this.lastSave = savedAt;
     
-                if (!bypassDisplay) {
+                if (showIndicator) {
                     setTimeout(() => {
-                        this.dirty = false;
-                        this.lastSave = savedAt;
                         this.saveInProgress = false;
                     }, 750);
                 }
@@ -148,7 +151,7 @@ const app = new Vue({
         },
         downloadActiveFile() {
             if (this.activeFile) {
-                this.saveActiveFile();
+                this.saveActiveFile(false);
                 const file = this.files[this.activeFile.index];
                 const blob = new Blob([this.activeFile.content], { type: 'text/plain;charset=utf-8' });
                 saveAs(blob, file.name);
