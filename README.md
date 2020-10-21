@@ -1,26 +1,5 @@
-# MD Notepad
+# JSON Tool
 
-![](icon.png)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4d849949-f6cf-4a15-ac96-d1a01c07531c/deploy-status)](https://app.netlify.com/sites/json-tool/deploys)
 
-MD Notepad is a lightweight markdown notepad that runs in your browser. Data is stored in browser storage and is never sent to a server. Try it out at:
-
-[mdnotepad.com](https://www.mdnotepad.com/)
-
-## Netlify deploy status
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/9c457d40-1f37-4034-9e1d-b113acc19bf4/deploy-status)](https://app.netlify.com/sites/md-notepad/deploys)
-
-## Features
-
-- Distraction-free note-taking
-- Clean user interface
-- Multiple file support
-- Dark theme
-- Auto-save as you type
-- Export to disk
-
-## Running offline
-
-1. Clone the repo
-1. Open index.html in your browser
-1. There is no step 3.
+This is a quick little utility that allows you to transform JSON objects using just your browser. No server postbacks at all.

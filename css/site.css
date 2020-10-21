@@ -1,0 +1,8 @@
+#app {
+  min-height: 100vh;
+}
+
+.navbar-icon-img {
+  width: 1.35rem;
+  vertical-align: top;
+}
