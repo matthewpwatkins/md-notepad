@@ -3,6 +3,56 @@ layout: fullscreen-page
 extra_js: ['index']
 ---
 
-<div class="flex-grow-1">
-  <p>Hi there</p>
+<div class="flex-grow-1 d-flex row mx-0">
+  <div class="col-1 px-0 d-flex flex-column justify-content-between">
+    <nav class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
+      <ul class="navbar-nav">
+        <li class="nav-item ace-editor-title-tab">
+          <span class="navbar-text text-light"><strong><i class="fas fa-code mr-1" style="color: orange;"></i>
+              Files</strong></span>
+        </li>
+      </ul>
+    </nav>
+    <div class="flex-grow-1">
+      Hi there
+    </div>
+  </div>
+  <div class="col px-0 d-flex flex-column justify-content-between">
+    <nav class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
+      <ul class="navbar-nav">
+        <li class="nav-item ace-editor-title-tab">
+          <span class="navbar-text text-light"><strong><i class="fas fa-code mr-1" style="color: orange;"></i>
+              file.md</strong></span>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            File
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item btn-file-open" file-input-target="editor-input-file-selector">
+              <i class="far fa-folder-open"></i> Open
+            </a>
+            <a class="dropdown-item btn-file-save" editor-target="editor-input" file-name="file.md">
+              <i class="far fa-save"></i> Save
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <input class="hidden-file-selector" id="editor-input-file-selector" editor-target="editor-input" type="file"
+        accept=".md,.markdown,.txt,.text" />
+    <div id="editor-input" class="flex-grow-1 ace-editor">### Hi there</div>
+  </div>
+  <div class="col px-0 d-flex flex-column justify-content-between">
+    <nav class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
+      <ul class="navbar-nav">
+        <li class="nav-item ace-editor-title-tab">
+          <span class="navbar-text text-light"><strong><i class="fas fa-code text-info mr-1"></i>
+              file.html</strong></span>
+        </li>
+      </ul>
+    </nav>
+    <div id="output-html" class="flex-grow-1 text-light p-2 fill-container"></div>
+  </div>
 </div>
