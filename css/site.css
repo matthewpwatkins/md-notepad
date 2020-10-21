@@ -2,6 +2,14 @@
   min-height: 100vh;
 }
 
+a {
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 .navbar-icon-img {
   width: 1.35rem;
   vertical-align: top;
