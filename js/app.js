@@ -63,6 +63,10 @@ const app = new Vue({
       const value = this.activeFileEditor.getValue();
       FILE_MANAGER.saveFile(this.activeFile, value);
       this.activeFileContent = MD.render(value).replace(/\<table\>/g, '<table class="table table-bordered table-striped">');
+    },
+    deleteFile(fileName) {
+      FILE_MANAGER.deleteFile(fileName);
+      this.files = FILE_MANAGER.listFiles();
     }
   }
 });
