@@ -57,12 +57,12 @@ const app = new Vue({
       this.activeFile = this.files.filter(f => f.name === fileName)[0];
       const value = FILE_MANAGER.readFile(this.activeFile.name);
       this.activeFileEditor.setValue(value, -1);
-      this.activeFileContent = value;
+      this.onUpdate();
     },
     onUpdate() {
       const value = this.activeFileEditor.getValue();
-      this.activeFileContent = value;
       FILE_MANAGER.saveFile(this.activeFile, value);
+      this.activeFileContent = MD.render(value).replace(/\<table\>/g, '<table class="table table-bordered table-striped">');
     }
   }
 });
