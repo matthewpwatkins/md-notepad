@@ -67,6 +67,11 @@ const app = new Vue({
     deleteFile(fileName) {
       FILE_MANAGER.deleteFile(fileName);
       this.files = FILE_MANAGER.listFiles();
+      if (fileName === this.activeFile?.name) {
+        this.activeFileContent = '';
+        this.activeFile = null;
+        this.activeFileEditor.setValue('', -1);
+      }
     }
   }
 });
