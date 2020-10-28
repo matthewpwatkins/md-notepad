@@ -25,7 +25,7 @@ const app = new Vue({
     files: [],
     activeFile: null,
     activeFileEditor: null,
-    activeFileContent: "Hi there!"
+    activeFileContent: ''
   },
   mounted() {
     this.files = FILE_MANAGER.listFiles();

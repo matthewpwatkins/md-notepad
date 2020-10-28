@@ -4,17 +4,17 @@ extra_js: ['index', 'local-storage-file-manager']
 ---
 
 <div id="md-notepad" class="flex-grow-1 d-flex row mx-0" v-bind:class="{ invisible: !mounted }">
-  <div class="col-2 px-0 d-flex flex-column justify-content-between">
+  <div class="col-xs-4 col-lg-2 px-0 d-flex flex-column justify-content-between">
     <div id="list-files" class="flex-grow-1 list-group list-group-flush">
-      <button type="button" v-on:click="createNewFile" class="list-group-item list-group-item-action">
+      <button type="button" v-on:click="createNewFile" class="list-group-item list-group-item-action bg-white p-2">
         <i class="far fa-plus-square mr-2"></i> Create new
       </button>
-      <button v-for="file in files" type="button" v-on:click="openFile(file.name)" class="list-group-item list-group-item-action" v-bind:class="{ active: file.name === activeFile?.name }">
+      <button v-for="file in files" type="button" v-on:click="openFile(file.name)" class="list-group-item list-group-item-action bg-secondary text-light p-2" v-bind:class="{ active: file.name === activeFile?.name }">
         <i class="far fa-file-alt mr-2"></i> <span v-html="file.name"></span>
       </button>
     </div>
   </div>
-  <div class="col px-0 d-flex flex-column justify-content-between">
+  <div class="col-xs-4 col-lg-5 px-0 d-flex flex-column justify-content-between">
     <nav class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
       <ul class="navbar-nav">
         <li class="nav-item ace-editor-title-tab">
@@ -26,7 +26,7 @@ extra_js: ['index', 'local-storage-file-manager']
     </nav>
     <div id="editor-input" class="flex-grow-1 ace-editor"></div>
   </div>
-  <div class="col px-0 d-flex flex-column justify-content-between">
+  <div class="col-xs-4 col-lg-5 px-0 d-flex flex-column justify-content-between">
     <nav class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
       <ul class="navbar-nav">
         <li class="nav-item ace-editor-title-tab">

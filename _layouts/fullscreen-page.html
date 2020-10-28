@@ -2,14 +2,10 @@
 layout: default
 ---
 
-<div class="d-flex flex-column justify-content-between">
+<div class="d-flex flex-column justify-content-between full-screen-page">
   <div class="flex-grow-1 d-flex flex-column justify-content-between">
-    <div>
-      {% include nav.html %}
-    </div>
+    {% include nav.html %}
     {{ content }}
   </div>
-  <div>
-    {% include footer.html %}
-  </div>
+  {% include footer.html %}
 </div>
