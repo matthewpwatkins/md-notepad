@@ -1,3 +1,4 @@
+const FILE_MANAGER = new LocalStorageFileManager();
 const MD = new window.remarkable.Remarkable("full", {
   html: true,
   xhtmlOut: true,
@@ -55,4 +56,17 @@ $(function () {
   });
 
   render();
+
+  const listFiles = $('#list-files');
+  for (const file of FILE_MANAGER.listFiles()) {
+    listFiles.append($(`<button type="button" class="list-group-item list-group-item-action bg-white">${file.name}</button>`));
+  }
+
+  $('#btn-create-new').click(function() {
+    const fileName = confirm('File name? Make it awesome :)')?.trim() || 'Untitled';
+    const fileNameWithExtension = fileName?.endsWith('.md') ? fileName : fileName + '.md';
+    const fileMetadata = { name: fileName, lastEdit: { dateTime: 0 } };
+    FILE_MANAGER.saveFile(fileMetadata, '');
+    window.location.reload();
+  });
 });
