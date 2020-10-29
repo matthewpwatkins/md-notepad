@@ -19,23 +19,27 @@ extra_js: ['index', 'local-storage-file-manager']
     <p class="p-3">Please create or select a file from the menu on the left</p>
   </div>
   <div class="col-xs-4 col-lg-5 px-0 d-flex flex-column justify-content-between" v-bind:class="{ invisible: !activeFile }">
-    <nav class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
+    <nav v-if="activeFile" class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
       <ul class="navbar-nav">
         <li class="nav-item ace-editor-title-tab">
           <span class="navbar-text text-light">
-            <strong><i class="fas fa-code mr-1" style="color: orange;"></i> <span v-html="activeFile?.name"></span></strong>
+            <strong><i class="fas fa-code mr-1" style="color: orange;"></i> <span v-html="activeFile.name"></span></strong>
           </span>
         </li>
+        <span class="navbar-text text-light ml-2">
+          <span>Last edit: </span>
+          <span v-html="new Date(activeFile.lastEdit.dateTime).toString().split(' ').slice(0, 5).join(' ')"></span>
+        </span>
       </ul>
     </nav>
     <div id="editor-input" class="flex-grow-1 ace-editor"></div>
   </div>
   <div class="col-xs-4 col-lg-5 px-0 d-flex flex-column justify-content-between" v-bind:class="{ invisible: !activeFile }">
-    <nav class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
+    <nav v-if="activeFile" class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
       <ul class="navbar-nav">
         <li class="nav-item ace-editor-title-tab">
           <span class="navbar-text text-light">
-            <strong><i class="fas fa-code mr-1" style="color: orange;"></i> <span v-html="activeFile?.name?.replace('.markdown', '.md')?.replace('.md', '.html')"></span></strong>
+            <strong><i class="fas fa-code mr-1" style="color: orange;"></i> <span v-html="activeFile.name.replace('.markdown', '.md').replace('.md', '.html')"></span></strong>
           </span>
         </li>
       </ul>
