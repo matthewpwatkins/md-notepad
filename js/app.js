@@ -28,7 +28,7 @@ const app = new Vue({
     activeFileContent: ''
   },
   mounted() {
-    this.files = FILE_MANAGER.listFiles();
+    this.files = FILE_MANAGER.listFiles().sort((a, b) => b.lastEdit.dateTime - a.lastEdit.dateTime);
     this.activeFileEditor = ace.edit(document.getElementById('editor-input'), {
       theme: "ace/theme/twilight",
       mode: "ace/mode/markdown",
@@ -38,6 +38,9 @@ const app = new Vue({
     });
     this.activeFileEditor.session.on('change', this.onUpdate);
     this.mounted = true;
+    if (this.files.length) {
+      this.openFile(this.files[0].name);
+    }
   },
   methods: {
     createNewFile() {
