@@ -25,7 +25,8 @@ const app = new Vue({
     files: [],
     activeFile: null,
     activeFileEditor: null,
-    activeFileContent: ''
+    activeFileContent: '',
+    editorRendered: false
   },
   mounted() {
     this.files = FILE_MANAGER.listFiles().sort((a, b) => b.lastEdit.dateTime - a.lastEdit.dateTime);
@@ -37,12 +38,21 @@ const app = new Vue({
       showPrintMargin: false
     });
     this.activeFileEditor.session.on('change', this.onUpdate);
+    this.activeFileEditor.renderer.on("afterRender", this.onEditorRender);
     this.mounted = true;
     if (this.files.length) {
       this.openFile(this.files[0].name);
     }
   },
   methods: {
+    onEditorRender() {
+      setTimeout(function() {
+        if (!this.editorRendered) {
+          this.editorRendered = true;
+          document.getElementById('editor-input').classList.remove('invisible');
+        }
+      }, 500);
+    },
     createNewFile() {
       let fileName = prompt('File name? Make it awesome :)');
       fileName = fileName ? fileName.trim() : fileName;
