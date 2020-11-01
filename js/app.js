@@ -37,7 +37,7 @@ const app = new Vue({
       this.config = JSON.parse(configJSON);
     }
 
-    this.files = FILE_MANAGER.listFiles().sort((a, b) => b.lastEdit.dateTime - a.lastEdit.dateTime);
+    this.files = FILE_MANAGER.listFiles();
     this.activeFileEditor = ace.edit(document.getElementById('editor-input'), {
       theme: "ace/theme/twilight",
       mode: "ace/mode/markdown",
@@ -49,7 +49,16 @@ const app = new Vue({
     this.activeFileEditor.renderer.on("afterRender", this.onEditorRender);
     this.mounted = true;
     if (this.files.length) {
-      this.openFile(this.files[0].name);
+      let fileNameToOpen = this.files.length ? this.files[0].name : undefined;
+      for (let i = 1; i < this.files.length; i++) {
+        if (this.files[i].name === this.config.lastOpenedFileName) {
+          fileNameToOpen = this.config.lastOpenedFileName;
+          break;
+        }
+      }
+      if (fileNameToOpen) {
+        this.openFile(fileNameToOpen);
+      }
     }
   },
   methods: {
@@ -79,6 +88,8 @@ const app = new Vue({
       const value = FILE_MANAGER.readFile(this.activeFile.name);
       this.activeFileEditor.setValue(value, -1);
       this.onUpdate();
+      this.config.lastOpenedFileName = this.activeFile.name;
+      this.saveConfig();
     },
     onUpdate() {
       const value = this.activeFileEditor.getValue();
