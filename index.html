@@ -10,7 +10,7 @@ extra_js: ['index', 'local-storage-file-manager']
         <a v-on:click="createNewFile"><i class="far fa-plus-square mr-2"></i> New file</a>
       </div>
       <div v-for="file in files" class="border-bottom border-right border-secondary d-flex justify-content-between" v-bind:class="{ 'bg-info': file.name === activeFile?.name }">
-        <div class="p-2 position-relative"><a v-on:click="openFile(file.name)"><i class="far fa-file-alt mr-2 stretched-link"></i> <span v-html="file.name"></span></a></div>
+        <a class="p-2 text-light flex-grow-1" v-on:click="openFile(file.name)"><i class="far fa-file-alt mr-2"></i> <span v-html="file.name"></span></a>
         <div class="p-2"><a v-on:click="deleteFile(file.name)"><i class="far fa-trash-alt"></i></a></div>
       </div>
     </div>
