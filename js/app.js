@@ -26,9 +26,17 @@ const app = new Vue({
     activeFile: null,
     activeFileEditor: null,
     activeFileContent: '',
-    editorRendered: false
+    editorRendered: false,
+    config: {
+      activeFileEditorFontSize: 12
+    }
   },
   mounted() {
+    const configJSON = Cookies.get('md-notepad-config');
+    if (configJSON?.length) {
+      this.config = JSON.parse(configJSON);
+    }
+
     this.files = FILE_MANAGER.listFiles().sort((a, b) => b.lastEdit.dateTime - a.lastEdit.dateTime);
     this.activeFileEditor = ace.edit(document.getElementById('editor-input'), {
       theme: "ace/theme/twilight",
@@ -85,6 +93,9 @@ const app = new Vue({
         this.activeFile = null;
         this.activeFileEditor.setValue('', -1);
       }
+    },
+    saveConfig() {
+      Cookies.set('md-notepad-config', JSON.stringify(this.config));
     }
   }
 });

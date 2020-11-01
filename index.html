@@ -20,7 +20,7 @@ extra_js: ['index', 'local-storage-file-manager']
   </div>
   <div class="col-xs-4 col-lg-5 px-0 d-flex flex-column justify-content-between" v-bind:class="{ invisible: !activeFile }">
     <nav v-if="activeFile" class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
-      <ul class="navbar-nav">
+      <div class="navbar-nav mr-auto">
         <li class="nav-item ace-editor-title-tab">
           <span class="navbar-text text-light">
             <strong><i class="fas fa-code mr-1" style="color: orange;"></i> <span v-html="activeFile.name"></span></strong>
@@ -30,9 +30,30 @@ extra_js: ['index', 'local-storage-file-manager']
           <span>Last edit: </span>
           <span v-html="new Date(activeFile.lastEdit.dateTime).toString().split(' ').slice(0, 5).join(' ')"></span>
         </span>
-      </ul>
+      </div>
+      <div class="navbar-nav ml-auto mr-2">
+        <form class="form-inline ml-auto">
+          <label>Text-size</label>
+          <select v-model="config.activeFileEditorFontSize" v-on:change="saveConfig" class="form-control form-control-sm ml-1 border-0 bg-transparent text-light" style="cursor: pointer;">
+            <option class="text-body">8</option>
+            <option class="text-body">9</option>
+            <option class="text-body">10</option>
+            <option class="text-body">11</option>
+            <option class="text-body">12</option>
+            <option class="text-body">14</option>
+            <option class="text-body">18</option>
+            <option class="text-body">24</option>
+            <option class="text-body">30</option>
+            <option class="text-body">36</option>
+            <option class="text-body">48</option>
+            <option class="text-body">60</option>
+            <option class="text-body">72</option>
+            <option class="text-body">96</option>
+          </select>
+        </form>
+      </div>
     </nav>
-    <div id="editor-input" class="flex-grow-1 ace-editor invisible"></div>
+    <div id="editor-input" class="flex-grow-1 ace-editor invisible" v-bind:style="{ fontSize: config.activeFileEditorFontSize + 'px' }"></div>
   </div>
   <div class="col-xs-4 col-lg-5 px-0 d-flex flex-column justify-content-between" v-bind:class="{ invisible: !activeFile }">
     <nav v-if="activeFile" class="ace-editor-navbar navbar navbar-expand-lg navbar-light bg-info p-0">
