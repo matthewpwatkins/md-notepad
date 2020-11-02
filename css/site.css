@@ -4,6 +4,11 @@
 
 a {
   cursor: pointer;
+  color: unset;
+}
+
+a:hover {
+  color: unset;
 }
 
 a:hover {
@@ -49,4 +54,14 @@ a:hover {
 
 .invisible {
   opacity: 0;
+}
+
+#active-file-preview hr {
+  border-color: #f8f9fa;
+}
+
+#active-file-preview pre {
+  color: #C5C8C6;
+  padding: 1rem 1.5rem;
+  background-color: #1D1F21;
 }
