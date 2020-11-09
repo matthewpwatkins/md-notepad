@@ -1,3 +1,4 @@
+const TAB_SIZE = 2;
 const FILE_MANAGER = new LocalStorageFileManager();
 const MD = new window.remarkable.Remarkable("full", {
   html: true,
@@ -43,7 +44,8 @@ const app = new Vue({
       mode: "ace/mode/markdown",
       wrap: true,
       autoScrollEditorIntoView: true,
-      showPrintMargin: false
+      showPrintMargin: false,
+      tabSize: TAB_SIZE
     });
     this.activeFileEditor.session.on('change', this.onUpdate);
     this.activeFileEditor.renderer.on("afterRender", this.onEditorRender);
