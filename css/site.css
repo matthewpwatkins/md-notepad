@@ -80,3 +80,7 @@ a:hover {
 #active-file-preview blockquote {
   padding-left: 1rem;
 }
+
+option.text-black {
+  color: rgb(26, 29, 30);
+}
