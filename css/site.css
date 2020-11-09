@@ -71,9 +71,10 @@ a:hover {
 }
 
 #active-file-preview pre {
-  color: #C5C8C6;
   padding: 1rem 1.5rem;
-  background-color: #1D1F21;
+  /* Copy from Ace theme */
+  color: rgb(200, 195, 188) !important;
+  background-color: #222526 !important;
 }
 
 #active-file-preview blockquote {

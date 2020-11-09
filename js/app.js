@@ -40,7 +40,7 @@ const app = new Vue({
 
     this.files = FILE_MANAGER.listFiles();
     this.activeFileEditor = ace.edit(document.getElementById('editor-input'), {
-      theme: "ace/theme/tomorrow_night",
+      theme: "ace/theme/tomorrow_night_eighties",
       mode: "ace/mode/markdown",
       wrap: true,
       autoScrollEditorIntoView: true,
