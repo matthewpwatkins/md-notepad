@@ -33,12 +33,12 @@ const app = new Vue({
     }
   },
   mounted() {
-    const configJSON = Cookies.get('md-notepad-config');
+    const configJSON = FILE_MANAGER.readFile('md-notepad-config.json');
     if (configJSON?.length) {
       this.config = JSON.parse(configJSON);
     }
 
-    this.files = FILE_MANAGER.listFiles();
+    this.files = this.listFiles();
     this.activeFileEditor = ace.edit(document.getElementById('editor-input'), {
       theme: "ace/theme/tomorrow_night_eighties",
       mode: "ace/mode/markdown",
@@ -64,6 +64,9 @@ const app = new Vue({
     }
   },
   methods: {
+    listFiles() {
+      return FILE_MANAGER.listFiles().filter(f => f.name !== 'md-notepad-config.json');
+    },
     onEditorRender() {
       setTimeout(function() {
         if (!this.editorRendered) {
@@ -81,7 +84,7 @@ const app = new Vue({
         }
         const fileMetadata = { name: fileName, lastEdit: { dateTime: 0 } };
         FILE_MANAGER.saveFile(fileMetadata, '');
-        this.files = FILE_MANAGER.listFiles();     
+        this.files = this.listFiles();     
         this.openFile(fileName);
       }
     },
@@ -100,7 +103,7 @@ const app = new Vue({
     },
     deleteFile(fileName) {
       FILE_MANAGER.deleteFile(fileName);
-      this.files = FILE_MANAGER.listFiles();
+      this.files = this.listFiles();
       if (fileName === this.activeFile?.name) {
         this.activeFileContent = '';
         this.activeFile = null;
@@ -108,7 +111,11 @@ const app = new Vue({
       }
     },
     saveConfig() {
-      Cookies.set('md-notepad-config', JSON.stringify(this.config));
+      const metadata = {
+        name: 'md-notepad-config.json',
+        lastEdit: { dateTime: 0 }
+      };
+      FILE_MANAGER.saveFile(metadata, JSON.stringify(this.config));
     }
   }
 });
